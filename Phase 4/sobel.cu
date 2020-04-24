@@ -61,6 +61,8 @@ int main()
   cudaStreamCreate( &streams[ 2 ] );
   cudaStreamCreate( &streams[ 3 ] );
 
+  cudaMemcpyAsync( rgb_d, rgb, size/2, cudaMemcpyHostToDevice, streams[ 0 ] );
+  cudaMemcpyAsync( rgb_d+size/2, rgb+size/2, size/2, cudaMemcpyHostToDevice, streams[ 1 ] );
 
   dim3 t( 32, 32 );
   dim3 be( 3 * (( cols ) / ((t.x - 2) + 1) ), (( rows ) / ((t.y - 2) + 1) ));
