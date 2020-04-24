@@ -29,15 +29,18 @@ int main()
   cudaMalloc( &g_d, rows * cols );
 
   cudaMemcpy( rgb_d, rgb, 3 * rows * cols, cudaMemcpyHostToDevice );
-  dim3 t( 32, 32 );
-  dim3 b( ( cols - 1) / t.x + 1 , ( rows - 1 ) / t.y + 1 );
+  // dim3 t( 32, 32 );
+  // dim3 be( 3 * (( cols - 1) / t.x + 1 ), (( rows - 1 ) / t.y + 1 ));
+
+  dim3 t( 16, 16 );
+  dim3 be(  2 * (( cols - 1) / t.x + 1 ), 2 * (( rows - 1 ) / t.y + 1 ));
 
   cudaEvent_t start, stop;
   cudaEventCreate( &start );
   cudaEventCreate( &stop );
   cudaEventRecord( start );
 
-  grayscale<<< b, t >>>( rgb_d, g_d, cols, rows );
+  grayscale<<< be, t >>>( rgb_d, g_d, cols, rows );
 
   cudaMemcpy(g.data(), g_d, rows * cols, cudaMemcpyDeviceToHost);
 

@@ -11,7 +11,7 @@ blur: blur.cu
 blur2: blur2.cu
 		nvcc -o $@ $< $(LDLIBS)
 
-sobel2: sobel2.cu
+sobel: sobel.cu
 	nvcc -o $@ $< $(LDLIBS)
 
 blurGauss: blurGauss.cu
@@ -32,7 +32,8 @@ mike: mike.cu
 laplacian: laplacian.cu
 	nvcc -o $@ $< $(LDLIBS)
 
-
+emboss: emboss.cu
+	nvcc -o $@ $< $(LDLIBS)
 
 
 .PHONY: clean
