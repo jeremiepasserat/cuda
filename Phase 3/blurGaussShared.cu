@@ -27,32 +27,32 @@ __global__ void blurGaussShared ( unsigned char * data,   unsigned char * out, s
     {
       for (auto c = 0; c < 3; ++c){
 
-          /*
-            1 : 1 - 4 - 7 - 4 - 1
-            2 : 4 - 16 - 26 - 16 - 4
-            3 : 7 - 26 - 41 - 26 - 7
-            4 : 4 - 16 - 26 - 16 - 4
-            5 : 1 - 4 - 7 - 4 - 1
+        /*
+        1 : 1 - 4 - 7 - 4 - 1
+        2 : 4 - 16 - 26 - 16 - 4
+        3 : 7 - 26 - 41 - 26 - 7
+        4 : 4 - 16 - 26 - 16 - 4
+        5 : 1 - 4 - 7 - 4 - 1
 
-          */
+        */
 
-          auto gu = sh[(( lj - 2) * ww + li - 2) * 3 + c] + sh[(( lj - 2) * ww + li + 2) * 3 + c]
-          +     4 * sh[(( lj - 2) * ww + li - 1) * 3 + c] + 4 * sh[(( lj - 2) * ww + li + 1) * 3 + c]
-          +     7 *sh[(( lj - 2) * ww + li) * 3 + c]
-          +     4 *sh[(( lj - 1) * ww + li - 2) * 3 + c] + 4 * sh[(( lj - 1) * ww + li + 2) * 3 + c]
-          +     16 * sh[(( lj - 1) * ww + li - 1) * 3 + c] + 16 * sh[(( lj - 1) * ww + li + 1) * 3 + c]
-          +     26 * sh[(( lj - 1) * ww + li) * 3 + c]
-          +     7 * sh[(( lj ) * ww + li - 1) * 3 + c] + 7 * sh[(( lj ) * ww + li + 1) * 3 + c]
-          +     26 * sh[(( lj ) * ww + li - 2) * 3 + c] + 26 * sh[(( lj ) * ww + li + 2) * 3 + c]
-          +     41 * sh[(( lj ) * ww + li) * 3 + c]
-          +     4 * sh[(( lj + 1) * ww + li - 1) * 3 + c] + 4 * sh[(( lj + 1) * ww + li + 1) * 3 + c]
-          +     16 * sh[(( lj + 1) * ww + li - 2) * 3 + c] + 16 * sh[(( lj + 1) * ww + li + 2) * 3 + c]
-          +     26 * sh[(( lj + 1) * ww + li) * 3 + c]
-          +     sh[(( lj + 2) * ww + li - 1) * 3 + c] + sh[(( lj + 2) * ww + li + 1) * 3 + c]
-          +     4 * sh[(( lj + 2) * ww + li - 2) * 3 + c] + 4 * sh[(( lj + 2) * ww + li + 2) * 3 + c]
-          +     7 * sh[(( lj + 2) * ww + li) * 3 + c];
+        auto gu = sh[(( lj - 2) * ww + li - 2) * 3 + c] + sh[(( lj - 2) * ww + li + 2) * 3 + c]
+        +     4 * sh[(( lj - 2) * ww + li - 1) * 3 + c] + 4 * sh[(( lj - 2) * ww + li + 1) * 3 + c]
+        +     7 *sh[(( lj - 2) * ww + li) * 3 + c]
+        +     4 *sh[(( lj - 1) * ww + li - 2) * 3 + c] + 4 * sh[(( lj - 1) * ww + li + 2) * 3 + c]
+        +     16 * sh[(( lj - 1) * ww + li - 1) * 3 + c] + 16 * sh[(( lj - 1) * ww + li + 1) * 3 + c]
+        +     26 * sh[(( lj - 1) * ww + li) * 3 + c]
+        +     7 * sh[(( lj ) * ww + li - 1) * 3 + c] + 7 * sh[(( lj ) * ww + li + 1) * 3 + c]
+        +     26 * sh[(( lj ) * ww + li - 2) * 3 + c] + 26 * sh[(( lj ) * ww + li + 2) * 3 + c]
+        +     41 * sh[(( lj ) * ww + li) * 3 + c]
+        +     4 * sh[(( lj + 1) * ww + li - 1) * 3 + c] + 4 * sh[(( lj + 1) * ww + li + 1) * 3 + c]
+        +     16 * sh[(( lj + 1) * ww + li - 2) * 3 + c] + 16 * sh[(( lj + 1) * ww + li + 2) * 3 + c]
+        +     26 * sh[(( lj + 1) * ww + li) * 3 + c]
+        +     sh[(( lj + 2) * ww + li - 1) * 3 + c] + sh[(( lj + 2) * ww + li + 1) * 3 + c]
+        +     4 * sh[(( lj + 2) * ww + li - 2) * 3 + c] + 4 * sh[(( lj + 2) * ww + li + 2) * 3 + c]
+        +     7 * sh[(( lj + 2) * ww + li) * 3 + c];
 
-          out[(j * w + i) * 3 + c] = (gu / 273);
+        out[(j * w + i) * 3 + c] = (gu / 273);
 
       }
 
@@ -77,9 +77,14 @@ int main()
   cudaMalloc( &out, 3 * rows * cols );
 
   cudaMemcpy( rgb_d, rgb, 3 * rows * cols, cudaMemcpyHostToDevice );
-  dim3 t( 32, 32 );
-  dim3 be( 3 * (( cols - 1) / t.x + 1 ), (( rows - 1 ) / t.y + 1 ));
-  dim3 bu( 3 * (( cols - 1) / (t.x-4) + 1) , ( rows - 1 ) / (t.y-4) + 1 );
+  // dim3 t( 32, 32 );
+  // dim3 bu( 3 * (( cols - 1) / (t.x-4) + 1) , ( rows - 1 ) / (t.y-4) + 1 );
+
+  dim3 t( 16, 16 );
+  dim3 bu( 3 * 2 *( cols - 1) / (t.x-4 + 1) , (2 * rows - 1 ) / (t.y-4 + 1 ));
+
+  // dim3 t( 4, 4 );
+  // dim3 bu( 3 * 8 *( cols - 1) / (t.x-4 + 1) , (8 * rows - 1 ) / (t.y-4 + 1 ));
 
   cudaEvent_t start, stop;
   cudaEventCreate( &start );

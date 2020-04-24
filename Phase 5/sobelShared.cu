@@ -78,14 +78,13 @@ int main()
   cudaMemcpyAsync( rgb_d+3*size/4, rgb+3*size/4, size/4, cudaMemcpyHostToDevice, streams[ 1 ] );
 
   //cudaMemcpyAsync( v1_d+size/2, v1+size/2, size/2 * sizeof(int), cudaMemcpyHostToDevice, streams[ 1 ] );
-  dim3 t( 32, 32 );
-  dim3 be( 3 * (( cols / 2) / (t.x + 1) ), (( rows / 2) / (t.y + 1) ));
-  dim3 bu( 3 * (( cols - 1) / (t.x-2) + 1) , ( rows - 1 ) / (t.y-2) + 1 );
-  // std::cout << "semi cols" << (m_in.cols / 2) << std::endl;
-  // std::cout << "semi rows" << (m_in.rows / 2) << std::endl;
-  // std::cout << "be x" << 3 * (( cols / 2 - 1) / (t.x + 1)) << std::endl;
-  //
-  // exit(0);
+  // dim3 t( 32, 32 );
+  // dim3 be( 3 * (( cols ) / ((t.x - 2) + 1) ), (( rows ) / ((t.y - 2) + 1) ));
+  dim3 t( 16, 16 );
+  dim3 be( 3 * 2 * (( cols ) / ((t.x - 2) + 1) ), ( 2 *  rows  / ((t.y - 2) + 1) ));
+
+  // dim3 t( 4, 4 );
+  // dim3 be( 3 * 8 * (( cols ) / ((t.x - 2) + 1) ), ( 8 *  rows  / ((t.y - 2) + 1) ));
 
   cudaEvent_t start, stop;
   cudaEventCreate( &start );
@@ -93,10 +92,10 @@ int main()
   cudaEventRecord( start );
 
   // One kernel is launched in each stream.
-  sobelShared<<< bu, t, 3 * t.x * t.y, streams[ 0 ] >>>( rgb_d, out, cols, rows/4 + 2);
-  sobelShared<<< bu, t, 3 * t.x * t.y, streams[ 1 ] >>>( rgb_d+size/4, out+size/4, cols, rows/4 + 4);
-  sobelShared<<< bu, t, 3 * t.x * t.y, streams[ 2 ] >>>( rgb_d+size/2, out+size/2, cols, rows/4 + 2);
-  sobelShared<<< bu, t, 3 * t.x * t.y, streams[ 3 ] >>>( rgb_d+3*size/4, out+3*size/4, cols, rows/4 );
+  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 0 ] >>>( rgb_d, out, cols, rows/4 + 2);
+  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 1 ] >>>( rgb_d+size/4, out+size/4, cols, rows/4 + 4);
+  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 2 ] >>>( rgb_d+size/2, out+size/2, cols, rows/4 + 2);
+  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 3 ] >>>( rgb_d+3*size/4, out+3*size/4, cols, rows/4 );
 
   // Sending back the resulting vector by halves.
   cudaMemcpyAsync( g.data(), out, size/4, cudaMemcpyDeviceToHost, streams[ 0 ] );
