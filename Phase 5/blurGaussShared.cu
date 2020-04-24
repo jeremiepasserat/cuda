@@ -91,12 +91,12 @@ int main()
   cudaMemcpyAsync( rgb_d, rgb, size/2, cudaMemcpyHostToDevice, streams[ 0 ] );
   cudaMemcpyAsync( rgb_d+size/2, rgb+size/2, size/2, cudaMemcpyHostToDevice, streams[ 1 ] );
 
-  //cudaMemcpyAsync( v1_d+size/2, v1+size/2, size/2 * sizeof(int), cudaMemcpyHostToDevice, streams[ 1 ] );
-  // dim3 t( 32, 32 );
-  // dim3 be( 3 * (( cols ) / ((t.x - 4) + 1) ), (( rows ) / ((t.y - 4) + 1) ));
 
-  dim3 t( 16, 16 );
-  dim3 be( 3 * 2 * (( cols ) / ((t.x - 4) + 1) ), ( 2 *  rows  / ((t.y - 4) + 1) ));
+  dim3 t( 32, 32 );
+  dim3 be( 3 * (( cols ) / ((t.x - 4) + 1) ), (( rows ) / ((t.y - 4) + 1) ));
+
+  // dim3 t( 16, 16 );
+  // dim3 be( 3 * 2 * (( cols ) / ((t.x - 4) + 1) ), ( 2 *  rows  / ((t.y - 4) + 1) ));
 
   // dim3 t( 4, 4 );
   // dim3 be( 3 * 8 * (( cols ) / ((t.x - 4) + 1) ), ( 8 *  rows  / ((t.y - 4) + 1) ));
