@@ -67,12 +67,12 @@ int main()
   cudaMemcpyAsync( rgb_d+size/2, rgb+size/2, size/4, cudaMemcpyHostToDevice, streams[ 2 ] );
   cudaMemcpyAsync( rgb_d+3*size/4, rgb+3*size/4, size/4, cudaMemcpyHostToDevice, streams[ 3 ] );
 
-  dim3 t( 32, 32 );
-  dim3 be( 3 * (( cols ) / ((t.x - 2) + 1) ), (( rows ) / ((t.y - 2) + 1) ));
-  dim3 t( 16, 16 );
+  // dim3 t( 32, 32 );
+  // dim3 be( 3 * (( cols ) / ((t.x - 2) + 1) ), (( rows ) / ((t.y - 2) + 1) ));
+   dim3 t( 16, 16 );
   dim3 be( 3 * 2 * (( cols ) / ((t.x - 2) + 1) ), (2 * ( rows ) / ((t.y - 2) + 1) ));
-  dim3 t( 4, 4 );
-  dim3 be( 3 * 8 * (( cols ) / ((t.x - 2) + 1) ), (8 * ( rows ) / ((t.y - 2) + 1) ));
+  // dim3 t( 4, 4 );
+  // dim3 be( 3 * 8 * (( cols ) / ((t.x - 2) + 1) ), (8 * ( rows ) / ((t.y - 2) + 1) ));
 
   cudaEvent_t start, stop;
   cudaEventCreate( &start );
