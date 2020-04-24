@@ -58,11 +58,14 @@ int main()
   cudaMalloc( &b, rows * cols );
 
   cudaMemcpy( rgb_d, rgb, 3 * rows * cols, cudaMemcpyHostToDevice );
-  //dim3 t( 32, 32 );
-  //dim3 be(( cols - 1) / t.x + 1 , ( rows - 1 ) / t.y + 1 );
+  dim3 t( 32, 32 );
+  dim3 be(( cols - 1) / t.x + 1 , ( rows - 1 ) / t.y + 1 );
 
-  dim3 t( 16, 16 );
-  dim3 be( 3 * 2 * (( cols - 1) / t.x + 1 ), 2 * (( rows - 1 ) / t.y + 1 ));
+  // dim3 t( 16, 16 );
+  // dim3 be( 3 * 2 * (( cols - 1) / t.x + 1 ), 2 * (( rows - 1 ) / t.y + 1 ));
+
+  // dim3 t( 1, 1 );
+  // dim3 be( 3 * 32 * (( cols - 1) / t.x + 1 ), 32 * (( rows - 1 ) / t.y + 1 ));
 
   cudaEvent_t start, stop;
   cudaEventCreate( &start );
