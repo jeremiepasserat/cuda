@@ -1,7 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
-__global__ void blurGaussS ( unsigned char * data,   unsigned char * out, std::size_t cols, std::size_t rows) {
+__global__ void blurGauss ( unsigned char * data,   unsigned char * out, std::size_t cols, std::size_t rows) {
 
   //auto i = blockIdx.x * (blockDim.x - 2) + threadIdx.x;
   //auto j = blockIdx.y * blockDim.y + threadIdx.y;

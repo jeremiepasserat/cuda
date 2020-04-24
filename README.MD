@@ -1,4 +1,4 @@
-Phase 1 : Sans Cuda (en c).
+﻿Phase 1 : Sans Cuda (en c).
 Phase 2 : Cuda "simple"
 Phase 3 : Cuda "shared"
 Phase 4 : Cuda simple & streams
@@ -8,7 +8,7 @@ Phase 5 : Cuda "shared" & streams
 
 2 images : in.jpg (1920x1200) et in2.jpg (530x230)
 
-3 configurations à tester :
+3 configurations à tester (hors variantes shared / gauss) :
 
 	- de base :   
 		  dim3 t( 32, 32 );
@@ -17,8 +17,8 @@ Phase 5 : Cuda "shared" & streams
 
 	- variante 1 :   
 		  dim3 t( 1, 1 );
-		  dim3 be( cols ), ( rows ); // variantes pour appels shared
+		  dim3 bu( 3 * 32 (( cols - 1) / (t.x + 1) , 32 * ( rows - 1 ) / (t.y) + 1 );
 
 	- variante 2 :   
 		  dim3 t( 16, 16 );
-		  dim3 be( 3 * (( 2 * cols - 1) / (t.x + 1) ), (( 2 * rows  - 1) / (t.y + 1) )); // variantes pour appels shared
+		  dim3 bu( 3 * 2 * (( cols - 1) / (t.x + 1) , 2 *( rows - 1 ) / (t.y) + 1 );

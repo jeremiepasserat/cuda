@@ -87,7 +87,7 @@ int main()
 
   // One kernel is launched in each stream.
   erodeShared<<< be, t, 3 * t.x * t.y, streams[ 0 ] >>>( rgb_d, out, cols, rows / 2 + 2 );
-  soerodeSharedbel<<< be, t, 3 * t.x * t.y, streams[ 1 ] >>>( rgb_d+size/2, out+size/2, cols, rows / 2);
+  erodeShared<<< be, t, 3 * t.x * t.y, streams[ 1 ] >>>( rgb_d+size/2, out+size/2, cols, rows / 2);
 
   // Sending back the resulting vector by halves.
   cudaMemcpyAsync( g.data(), out, size/2, cudaMemcpyDeviceToHost, streams[ 0 ] );

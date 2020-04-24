@@ -73,7 +73,7 @@ int main()
 
   // One kernel is launched in each stream.
   laplacian<<< be, t, 0, streams[ 0 ] >>>( rgb_d, out, cols, rows / 2 + 2);
-  soblaplacianel<<< be, t, 0, streams[ 1 ] >>>( rgb_d+size/2, out+size/2, cols, rows / 2);
+  laplacian<<< be, t, 0, streams[ 1 ] >>>( rgb_d+size/2, out+size/2, cols, rows / 2);
 
   // Sending back the resulting vector by halves.
   cudaMemcpyAsync( g.data(), out, size/2, cudaMemcpyDeviceToHost, streams[ 0 ] );

@@ -75,7 +75,7 @@ int main()
   cudaEventRecord( start );
 
   // One kernel is launched in each stream.
-  sobdilateel<<< be, t, 0, streams[ 0 ] >>>( rgb_d, out, cols, rows / 2 + 2);
+  dilate<<< be, t, 0, streams[ 0 ] >>>( rgb_d, out, cols, rows / 2 + 2);
   dilate<<< be, t, 0, streams[ 1 ] >>>( rgb_d+size/2, out+size/2, cols, rows / 2);
 
   // Sending back the resulting vector by halves.
