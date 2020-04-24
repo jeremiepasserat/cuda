@@ -47,11 +47,11 @@ int main()
 
 
   dim3 t( 32, 32 );
-  dim3 be( 3 * (( cols ) / ((t.x - 2) + 1) ), (( rows ) / ((t.y - 2) + 1) ));
-  dim3 t( 16, 16 );
-  dim3 be( 2 * (( cols ) / ((t.x - 2) + 1) ), (2 * ( rows ) / ((t.y - 2) + 1) ));
-  dim3 t( 4, 4 );
-  dim3 be(  8 * (( cols ) / ((t.x - 2) + 1) ), (8 * ( rows ) / ((t.y - 2) + 1) ));
+  dim3 be( (( cols ) / ((t.x - 2) + 1) ), (( rows ) / ((t.y - 2) + 1) ));
+  // dim3 t( 16, 16 );
+  // dim3 be(  2 * (( cols ) / ((t.x - 2) + 1) ), (2 * ( rows ) / ((t.y - 2) + 1) ));
+  // dim3 t( 4, 4 );
+  // dim3 be(  8 * (( cols ) / ((t.x - 2) + 1) ), (8 * ( rows ) / ((t.y - 2) + 1) ));
 
 
   cudaEvent_t start, stop;
