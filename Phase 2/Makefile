@@ -39,4 +39,4 @@ emboss: emboss.cu
 .PHONY: clean
 
 clean:
-	rm sobel blur blurGauss blurGaussSobel mike emboss erode dilate grayscale laplacian *.jpg
+	rm sobel blur blur2 blurGauss blurGaussSobel mike emboss erode dilate grayscale laplacian *.jpg
