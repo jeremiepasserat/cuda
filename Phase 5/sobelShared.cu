@@ -74,8 +74,8 @@ int main()
 
   cudaMemcpyAsync( rgb_d, rgb, size/4, cudaMemcpyHostToDevice, streams[ 0 ] );
   cudaMemcpyAsync( rgb_d+size/4, rgb+size/4, size/4, cudaMemcpyHostToDevice, streams[ 1 ] );
-  cudaMemcpyAsync( rgb_d+size/2, rgb+size/2, size/4, cudaMemcpyHostToDevice, streams[ 1 ] );
-  cudaMemcpyAsync( rgb_d+3*size/4, rgb+3*size/4, size/4, cudaMemcpyHostToDevice, streams[ 1 ] );
+  cudaMemcpyAsync( rgb_d+size/2, rgb+size/2, size/4, cudaMemcpyHostToDevice, streams[ 2 ] );
+  cudaMemcpyAsync( rgb_d+3*size/4, rgb+3*size/4, size/4, cudaMemcpyHostToDevice, streams[ 3 ] );
 
   //cudaMemcpyAsync( v1_d+size/2, v1+size/2, size/2 * sizeof(int), cudaMemcpyHostToDevice, streams[ 1 ] );
   // dim3 t( 32, 32 );
@@ -94,7 +94,7 @@ int main()
   // One kernel is launched in each stream.
   sobelShared<<< be, t, 3 * t.x * t.y, streams[ 0 ] >>>( rgb_d, out, cols, rows/4 + 2);
   sobelShared<<< be, t, 3 * t.x * t.y, streams[ 1 ] >>>( rgb_d+size/4, out+size/4, cols, rows/4 + 4);
-  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 2 ] >>>( rgb_d+size/2, out+size/2, cols, rows/4 + 2);
+  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 2 ] >>>( rgb_d+size/4, out+size/2, cols, rows/4 + 2);
   sobelShared<<< be, t, 3 * t.x * t.y, streams[ 3 ] >>>( rgb_d+3*size/4, out+3*size/4, cols, rows/4 );
 
   // Sending back the resulting vector by halves.

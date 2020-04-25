@@ -56,7 +56,7 @@ int main()
   // dim3 be( 3 * 2 * (( cols - 1) / t.x + 1 ), 2 * (( rows - 1 ) / t.y + 1 ));
 
   dim3 t( 4, 4 );
-  dim3 be( 3 * 8 * (( cols - 1) / t.x + 1 ), 8 * (( rows - 1 ) / t.y + 1 ));er
+  dim3 be( 3 * 8 * (( cols - 1) / t.x + 1 ), 8 * (( rows - 1 ) / t.y + 1 ));
 
   cudaEvent_t start, stop;
   cudaEventCreate( &start );
