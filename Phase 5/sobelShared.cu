@@ -94,7 +94,7 @@ int main()
   // One kernel is launched in each stream.
   sobelShared<<< be, t, 3 * t.x * t.y, streams[ 0 ] >>>( rgb_d, out, cols, rows/4 + 2);
   sobelShared<<< be, t, 3 * t.x * t.y, streams[ 1 ] >>>( rgb_d+size/4, out+size/4, cols, rows/4 + 4);
-  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 2 ] >>>( rgb_d+size/2, out+size/2, cols, rows/4 + 2);
+  sobelShared<<< be, t, 3 * t.x * t.y, streams[ 2 ] >>>( rgb_d+size/2, out+size/4, cols, rows/4 + 2);
   sobelShared<<< be, t, 3 * t.x * t.y, streams[ 3 ] >>>( rgb_d+3*size/4, out+3*size/4, cols, rows/4 );
 
   // Sending back the resulting vector by halves.
