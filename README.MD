@@ -15,10 +15,10 @@ Phase 5 : Cuda "shared" & streams
  		  dim3 bu( 3 * (( cols - 1) / (t.x + 1) , ( rows - 1 ) / (t.y) + 1 );
 
 
-	- variante 1 :   
+	- version 1 :   
 		  dim3 t( 4, 4 );
 		  dim3 bu( 3 * 8 (( cols - 1) / (t.x + 1) , 8 * ( rows - 1 ) / (t.y) + 1 );
 
-	- variante 2 :   
+	- version 2 :   
 		  dim3 t( 16, 16 );
 		  dim3 bu( 3 * 2 * (( cols - 1) / (t.x + 1) , 2 *( rows - 1 ) / (t.y) + 1 );
